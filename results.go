@@ -54,6 +54,12 @@ func (s *SessionResults) FindCarByGUIDAndModel(guid, model string) (*SessionCar,
 	return nil, ErrSessionCarNotFound
 }
 
+func (s *SessionResults) sortResults() {
+	sort.SliceStable(Result, func(i, j int) bool {
+		return Result[i].BestLap < Result[j].BestLap
+	})
+}
+
 func (s *SessionResults) Anonymize() {
 	for _, car := range s.Cars {
 		car.Driver.GUID = AnonymiseDriverGUID(car.Driver.GUID)
